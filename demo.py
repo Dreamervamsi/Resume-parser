@@ -4,7 +4,7 @@ from fastapi import FastAPI,UploadFile,File
 
 app = FastAPI()
 
-# client = ollama.Client(host="https://ollama.com", headers={"Authorization": "Bearer 93e774f011e84e7f8efe641e52eb683a.JJPHSrEUCP8UnFSDYRRnvdCX"})
+# client = ollama.Client(host="https://ollama.com", headers={"Authorization": "Bearer "})
 
 @app.post('/upload')
 async def file_upload(file:UploadFile = File(...)):
