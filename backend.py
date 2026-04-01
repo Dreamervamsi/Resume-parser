@@ -67,9 +67,9 @@ async def file_upload(file:UploadFile = File(...)):
 
     path = Path(file.filename)
     
-    if path.suffix.lower() == '.pdf' or path.suffix.lower() == '.docx':
+    text = ""
+    if path.suffix.lower() == '.pdf' or path.suffix.lower() == '.docx' or path.suffix.lower() == '.txt':
         doc = fitz.open(stream=data)
-        text = ""
         for i in doc:
             text+=i.get_text()
         
@@ -84,7 +84,19 @@ async def file_upload(file:UploadFile = File(...)):
         res = model(text)
 
         return res
+    else:
+        doc = fitz.open(stream=data)
+       
+        for pn,page in enumerate(doc):
+                pix = page.get_pixmap()
 
+                img = Image.frombytes("RGB",[pix.width,pix.height],pix.samples)
+                
+                text += pt.image_to_string(img)
+
+        res = model(text)
+
+        return res
 
 
 
